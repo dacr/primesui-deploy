@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+
+    <Executor name="PrimesThreadPool"
+              namePrefix="orange-exec-"
+              maxThreads="2000"
+              minSpareThreads="5"
+              prestartminSpareThreads="true"
+              maxIdleTime="5000"
+              />
+
+    <Connector port="8080" 
+               redirectPort="8443"
+	       address="0.0.0.0"
+	       acceptCount="500"
+               connectionTimeout="5000"
+               keepAliveTimeout="2000"
+               maxKeepAliveRequests="1000"
+               maxConnections="10000"
+               protocol="org.apache.coyote.http11.Http11NioProtocol"
+               enableLookups="false"
+               useExecutor="true"
+               executor="PrimesThreadPool"
+               acceptorThreadCount="1"
+               pollerThreadCount="1"
+               />
+
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="default">
+
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+      </Realm>
+
+      <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="tomcat_access_log." suffix=".txt"
+	       pattern="%h %{X-Forwarded-For}i %l %u %t &quot;%r&quot; %s %b %S %D"
+	       />
+      </Host>
+
+    </Engine>
+
+  </Service>
+</Server>
