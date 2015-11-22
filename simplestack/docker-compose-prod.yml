@@ -1,3 +1,5 @@
+
+# ------------------ THE APPLICATION SERVER
 tcpui :
   restart: always
   build : tomcatpui
@@ -14,6 +16,7 @@ tcpui :
     - ./primesui.war:/usr/local/tomcat/webapps/primesui.war
     - /var/log/primesui/logs:/usr/local/tomcat/logs
 
+# ------------------ AND THE DATABASE
 dbpui :
   restart: always
   build : mysqlpui
