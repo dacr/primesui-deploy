@@ -1,4 +1,4 @@
-FROM tomcat:8-jdk8
+FROM tomcat:8-jre8
 
 MAINTAINER David CROSSON <crosson.david@gmail.com>
 
