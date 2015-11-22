@@ -1,0 +1,27 @@
+tcpui :
+  restart: always
+  build : tomcatpui
+  links : 
+    - "dbpui:docker_primes_db"
+  ports :
+    - "7777:8080"
+  environment:
+    - ENV PRIMESUI_CACHE   true
+    - ENV PRIMESUI_TESTING true
+    - ENV PRIMESUI_SESSION true
+    - ENV PRIMESUI_DEBUG   true
+  volumes:
+    - ./primesui.war:/usr/local/tomcat/primesui.war
+    - /var/log/primesui/logs:/usr/local/tomcat/logs
+
+dbpui :
+  restart: always
+  build : mysqlpui
+  environment:
+    - MYSQL_ROOT_PASSWORD=bumblebeeadmin
+    - MYSQL_USER=optimus
+    - MYSQL_PASSWORD=bumblebee
+    - MYSQL_DATABASE=primes
+  volumes:
+    - /var/db/primesui-dbpui:/var/lib/mysql/
+

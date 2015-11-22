@@ -7,11 +7,12 @@ tcpui :
     - "7777:8080"
   environment:
     - ENV PRIMESUI_CACHE   true
-    - ENV PRIMESUI_TESTING true
+    - ENV PRIMESUI_TESTING false
     - ENV PRIMESUI_SESSION true
-    - ENV PRIMESUI_DEBUG   true
+    - ENV PRIMESUI_DEBUG   false
   volumes:
     - ./primesui.war:/usr/local/tomcat/primesui.war
+    - /var/log/primesui/logs:/usr/local/tomcat/logs
 
 dbpui :
   restart: always
@@ -22,5 +23,5 @@ dbpui :
     - MYSQL_PASSWORD=bumblebee
     - MYSQL_DATABASE=primes
   volumes:
-    - /var/devops-primesui-mysql/:/var/lib/mysql/
+    - /var/db/primesui-dbpui:/var/lib/mysql/
 
