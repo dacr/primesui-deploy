@@ -17,6 +17,8 @@ tcpui :
 dbpui :
   restart: always
   build : mysqlpui
+  ports :
+    - "3306"
   environment:
     - MYSQL_ROOT_PASSWORD=bumblebeeadmin
     - MYSQL_USER=optimus
