@@ -9,6 +9,7 @@ tcpui :
     - ENV PRIMESUI_CACHE   true
     - ENV PRIMESUI_TESTING true
     - ENV PRIMESUI_SESSION true
+    - ENV PRIMESUI_DEBUG   true
   volumes:
     - ./primesui.war:/usr/local/tomcat/primesui.war
 
