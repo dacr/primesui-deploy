@@ -49,7 +49,7 @@
 
       <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="tomcat_access_log." suffix=".txt"
+               prefix="tomcat_access_log" suffix=".txt"
 	       pattern="%h %{X-Forwarded-For}i %l %u %t &quot;%r&quot; %s %b %S %D"
 	       />
       </Host>
