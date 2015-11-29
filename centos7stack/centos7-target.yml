@@ -1,0 +1,68 @@
+---
+- hosts: target
+
+  environment:
+      http_proxy: "http://{{proxy_host}}:{{proxy_port}}"
+      https_proxy: "http://{{proxy_host}}:{{proxy_port}}"
+
+  tasks:
+
+  - name: Configure /etc/hosts
+    template: |
+      src=templates/etc-hosts.j2
+      dest=/etc/hosts
+      owner=root group=root mode="0644"
+
+  - name: Install EPEL
+    get_url: |
+       dest=/tmp
+       url=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+  - name: Update
+    yum: name=/tmp/epel-release-latest-7.noarch.rpm
+
+  - name: Install rng-tools
+    yum: name=rng-tools
+
+  - name: Start rngd
+    service: name=rngd state=started enabled=true
+
+  - name: Install mysql-server
+    yum: name=mariadb-server
+
+  - name: Install MySQL-python
+    yum: name=MySQL-python state=installed
+
+  - name: Ensure MySQL is running
+    service: name=mariadb state=started enabled=true
+
+  - name: Install tomcat
+    yum: name=tomcat
+
+  - name: Ensure tomcat is running
+    service: name=tomcat state=started enabled=true
+
+  - name: Install python-pip
+    yum: name=python-pip
+
+  - name: Update pip
+    shell: pip install --upgrade pip
+
+  - name: Install mysqldb-python
+    pip: name=MySQL-python
+
+  - name: Create the database
+    mysql_db: name=primes state=present
+
+  - name : Create database user
+    mysql_user: |
+      name=optimus
+      password=bumblebee
+      priv=*.*:ALL
+      state=present
+
+  - name: Install primesui webapp
+    get_url: |
+       url=http://www.janalyse.fr/primesui/primesui.war
+       dest=/usr/share/tomcat/webapps/primesui.war
+
