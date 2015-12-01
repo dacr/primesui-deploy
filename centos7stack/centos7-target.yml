@@ -61,8 +61,13 @@
       priv=*.*:ALL
       state=present
 
+#  - name: Install primesui webapp
+#    get_url: |
+#       url=http://www.janalyse.fr/primesui/primesui.war
+#       dest=/usr/share/tomcat/webapps/primesui.war
+
   - name: Install primesui webapp
-    get_url: |
-       url=http://www.janalyse.fr/primesui/primesui.war
+    copy: |
+       src=primesui.war
        dest=/usr/share/tomcat/webapps/primesui.war
 
