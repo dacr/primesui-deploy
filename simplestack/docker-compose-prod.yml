@@ -6,7 +6,7 @@ tcpui :
   links :
     - "dbpui:docker_primes_db"
   ports :
-    - "7777:8080"
+    - "120.0.0.1:7777:8080"
   environment:
     - PRIMESUI_CACHE=true
     - PRIMESUI_TESTING=false
@@ -19,8 +19,8 @@ tcpui :
 dbpui :
   restart: always
   build : mysqlpui
-  ports :
-    - "3306"
+  #ports :
+  #  - "3306"
   environment:
     - MYSQL_ROOT_PASSWORD=bumblebeeadmin
     - MYSQL_USER=optimus
